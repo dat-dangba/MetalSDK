@@ -13,6 +13,7 @@ namespace Metal.Editor
             VisualElement root = new VisualElement();
 
 #if HAS_AUTO_REFERENCE
+            root.Add(new PackageInstalledVisualElement("Auto Reference"));
             InstallBaseGame(root);
 #else
             root.Add(new InstallPackageVisualElement("Auto Reference", InstallAutoReference));
@@ -38,6 +39,7 @@ namespace Metal.Editor
                     marginTop = 50
                 }
             };
+            root.Add(createProjectStructure);
 #else
             root.Add(new InstallPackageVisualElement("Base Game", InstallBaseGame));
 #endif
