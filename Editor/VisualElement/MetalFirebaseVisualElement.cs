@@ -1,8 +1,11 @@
 using System.Collections.Generic;
-using Metal.Firebase;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+
+#if HAS_METAL_FIREBASE
+using Metal.Firebase;
+#endif
 
 namespace Metal.Editor
 {
