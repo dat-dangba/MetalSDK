@@ -45,10 +45,7 @@ namespace Metal.Editor
 
         private void InstallAutoReference()
         {
-            string token = MetalServicesEditor.GetToken();
-            if (string.IsNullOrEmpty(token)) return;
-
-            InstallPackageHelper.Install($"https://{token}@github.com/dat-dangba/MetalAutoReference.git");
+            InstallPackageHelper.Install($"https://github.com/dat-dangba/AutoReference.git");
         }
 
         private void InstallCore()
