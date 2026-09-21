@@ -41,22 +41,34 @@ namespace Metal.Editor
 
             var packages = new List<string>();
 
-            string metalFirebaseAppLink = $"https://{token}@github.com/dat-dangba/MetalFirebaseApp.git";
-            if (!InstallPackageHelper.IsPackageInstalled(metalFirebaseAppLink))
+            string firebaseAppLink = $"https://github.com/dat-dangba/FirebaseApp.git";
+            if (!InstallPackageHelper.IsPackageInstalled(firebaseAppLink))
             {
-                packages.Add(metalFirebaseAppLink);
+                packages.Add(firebaseAppLink);
             }
 
-            string metalFirebaseAnalyticsLink = $"https://{token}@github.com/dat-dangba/MetalFirebaseAnalytics.git";
-            if (!InstallPackageHelper.IsPackageInstalled(metalFirebaseAnalyticsLink))
+            string firebaseAnalyticsLink = $"https://github.com/dat-dangba/FirebaseAnalytics.git";
+            if (!InstallPackageHelper.IsPackageInstalled(firebaseAnalyticsLink))
             {
-                packages.Add(metalFirebaseAnalyticsLink);
+                packages.Add(firebaseAnalyticsLink);
             }
 
-            string metalFirebaseCrashlyticsLink = $"https://{token}@github.com/dat-dangba/MetalFirebaseCrashlytics.git";
-            if (!InstallPackageHelper.IsPackageInstalled(metalFirebaseCrashlyticsLink))
+            string firebaseCrashlyticsLink = $"https://github.com/dat-dangba/FirebaseCrashlytics.git";
+            if (!InstallPackageHelper.IsPackageInstalled(firebaseCrashlyticsLink))
             {
-                packages.Add(metalFirebaseCrashlyticsLink);
+                packages.Add(firebaseCrashlyticsLink);
+            }
+
+            string firebaseRemoteConfigLink = $"https://github.com/dat-dangba/FirebaseRemoteConfig.git";
+            if (!InstallPackageHelper.IsPackageInstalled(firebaseRemoteConfigLink))
+            {
+                packages.Add(firebaseRemoteConfigLink);
+            }
+
+            string firebaseMessagingLink = $"https://github.com/dat-dangba/FirebaseMessaging.git";
+            if (!InstallPackageHelper.IsPackageInstalled(firebaseMessagingLink))
+            {
+                packages.Add(firebaseMessagingLink);
             }
 
             string metalFirebaseLink = $"https://{token}@github.com/dat-dangba/MetalFirebase.git";
