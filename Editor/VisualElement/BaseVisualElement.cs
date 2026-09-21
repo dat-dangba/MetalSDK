@@ -24,5 +24,14 @@ namespace Metal.Editor
             settingInspector.style.paddingBottom = 0;
             Add(settingInspector);
         }
+
+        protected void HideScript()
+        {
+            VisualElement scriptField = this.Q<PropertyField>("PropertyField:m_Script");
+            if (scriptField != null)
+            {
+                scriptField.style.display = DisplayStyle.None;
+            }
+        }
     }
 }

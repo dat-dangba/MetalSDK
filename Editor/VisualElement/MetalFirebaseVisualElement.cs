@@ -13,7 +13,31 @@ namespace Metal.Editor
     {
         public MetalFirebaseVisualElement()
         {
-#if HAS_METAL_FIREBASE
+#if !HAS_FIREBASE_APP
+            Add(new InstallPackageVisualElement("Firebase App",
+                () => { InstallPackageHelper.Install("https://github.com/dat-dangba/FirebaseApp.git"); }));
+#elif !HAS_FIREBASE_ANALYTICS
+            Add(new InstallPackageVisualElement("Firebase Analytics",
+                () => { InstallPackageHelper.Install("https://github.com/dat-dangba/FirebaseAnalytics.git"); }));
+#elif !HAS_FIREBASE_CRASHLYTICS
+            Add(new InstallPackageVisualElement("Firebase Crashlytics",
+                () => { InstallPackageHelper.Install("https://github.com/dat-dangba/FirebaseCrashlytics.git"); }));
+#elif !HAS_FIREBASE_REMOTE_CONFIG
+            Add(new InstallPackageVisualElement("Firebase Remote Config",
+                () => { InstallPackageHelper.Install("https://github.com/dat-dangba/FirebaseRemoteConfig.git"); }));
+#elif !HAS_FIREBASE_MESSAGING
+            Add(new InstallPackageVisualElement("Firebase Messaging",
+                () => { InstallPackageHelper.Install("https://github.com/dat-dangba/FirebaseMessaging.git"); }));
+#elif !HAS_METAL_FIREBASE
+            Add(new InstallPackageVisualElement("Metal Firebase Sdk",
+                () =>
+                {
+                    string token = MetalServicesEditor.GetToken();
+                    if (string.IsNullOrEmpty(token)) return;
+                    string metalFirebaseLink = $"https://{token}@github.com/dat-dangba/MetalFirebase.git";
+                    InstallPackageHelper.Install(metalFirebaseLink);
+                }));
+#else
             Add(new PackageInstalledVisualElement("Metal Firebase Sdk"));
             Add(new Label("Remote Config")
             {
@@ -27,70 +51,8 @@ namespace Metal.Editor
             });
             ScriptableObject remoteConfigSetting = RemoteConfigSo.LoadConfig();
             DrawSetting(remoteConfigSetting);
-            VisualElement scriptField = this.Q<PropertyField>("PropertyField:m_Script");
-            if (scriptField != null)
-            {
-                scriptField.style.display = DisplayStyle.None;
-            }
-#else
-            Add(new InstallPackageVisualElement("Metal Firebase Sdk", InstallMetalFirebase));
+            HideScript();
 #endif
-        }
-
-        private void InstallMetalFirebase()
-        {
-            string token = MetalServicesEditor.GetToken();
-            if (string.IsNullOrEmpty(token)) return;
-
-            var packages = new List<string>();
-
-#if !HAS_FIREBASE_APP
-            string firebaseAppLink = $"https://github.com/dat-dangba/FirebaseApp.git";
-            if (!InstallPackageHelper.IsPackageInstalled(firebaseAppLink))
-            {
-                packages.Add(firebaseAppLink);
-            }
-#endif
-
-#if !HAS_FIREBASE_ANALYTICS
-            string firebaseAnalyticsLink = $"https://github.com/dat-dangba/FirebaseAnalytics.git";
-            if (!InstallPackageHelper.IsPackageInstalled(firebaseAnalyticsLink))
-            {
-                packages.Add(firebaseAnalyticsLink);
-            }
-#endif
-
-#if !HAS_FIREBASE_CRASHLYTICS
-            string firebaseCrashlyticsLink = $"https://github.com/dat-dangba/FirebaseCrashlytics.git";
-            if (!InstallPackageHelper.IsPackageInstalled(firebaseCrashlyticsLink))
-            {
-                packages.Add(firebaseCrashlyticsLink);
-            }
-#endif
-
-#if !HAS_FIREBASE_REMOTE_CONFIG
-            string firebaseRemoteConfigLink = $"https://github.com/dat-dangba/FirebaseRemoteConfig.git";
-            if (!InstallPackageHelper.IsPackageInstalled(firebaseRemoteConfigLink))
-            {
-                packages.Add(firebaseRemoteConfigLink);
-            }
-#endif
-
-#if !HAS_FIREBASE_MESSAGING
-            string firebaseMessagingLink = $"https://github.com/dat-dangba/FirebaseMessaging.git";
-            if (!InstallPackageHelper.IsPackageInstalled(firebaseMessagingLink))
-            {
-                packages.Add(firebaseMessagingLink);
-            }
-#endif
-
-            string metalFirebaseLink = $"https://{token}@github.com/dat-dangba/MetalFirebase.git";
-            if (!InstallPackageHelper.IsPackageInstalled(metalFirebaseLink))
-            {
-                packages.Add(metalFirebaseLink);
-            }
-
-            InstallPackageHelper.Install(packages);
         }
     }
 }
