@@ -31,7 +31,6 @@ namespace Metal.Editor
 
         static SdkDetector()
         {
-            Debug.Log($"datdb - IsInPackage {IsInPackage()}");
             if (IsInPackage())
             {
                 CompilationPipeline.compilationFinished += _ => UpdateDefineSymbolsAndReload();
@@ -90,7 +89,7 @@ namespace Metal.Editor
 
         private static bool IsInPackage()
         {
-            return GetFilePath().Contains("Packages");
+            return GetFilePath().Contains("Package");
         }
 
         private static string GetFilePath([CallerFilePath] string path = "")
