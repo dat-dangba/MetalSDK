@@ -44,35 +44,45 @@ namespace Metal.Editor
 
             var packages = new List<string>();
 
+#if !HAS_FIREBASE_APP
             string firebaseAppLink = $"https://github.com/dat-dangba/FirebaseApp.git";
             if (!InstallPackageHelper.IsPackageInstalled(firebaseAppLink))
             {
                 packages.Add(firebaseAppLink);
             }
+#endif
 
+#if !HAS_FIREBASE_ANALYTICS
             string firebaseAnalyticsLink = $"https://github.com/dat-dangba/FirebaseAnalytics.git";
             if (!InstallPackageHelper.IsPackageInstalled(firebaseAnalyticsLink))
             {
                 packages.Add(firebaseAnalyticsLink);
             }
+#endif
 
+#if !HAS_FIREBASE_CRASHLYTICS
             string firebaseCrashlyticsLink = $"https://github.com/dat-dangba/FirebaseCrashlytics.git";
             if (!InstallPackageHelper.IsPackageInstalled(firebaseCrashlyticsLink))
             {
                 packages.Add(firebaseCrashlyticsLink);
             }
+#endif
 
+#if !HAS_FIREBASE_REMOTE_CONFIG
             string firebaseRemoteConfigLink = $"https://github.com/dat-dangba/FirebaseRemoteConfig.git";
             if (!InstallPackageHelper.IsPackageInstalled(firebaseRemoteConfigLink))
             {
                 packages.Add(firebaseRemoteConfigLink);
             }
+#endif
 
+#if !HAS_FIREBASE_MESSAGING
             string firebaseMessagingLink = $"https://github.com/dat-dangba/FirebaseMessaging.git";
             if (!InstallPackageHelper.IsPackageInstalled(firebaseMessagingLink))
             {
                 packages.Add(firebaseMessagingLink);
             }
+#endif
 
             string metalFirebaseLink = $"https://{token}@github.com/dat-dangba/MetalFirebase.git";
             if (!InstallPackageHelper.IsPackageInstalled(metalFirebaseLink))
