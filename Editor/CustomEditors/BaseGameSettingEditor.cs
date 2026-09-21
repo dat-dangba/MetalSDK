@@ -29,19 +29,31 @@ namespace Metal.Editor
         private void InstallBaseGame(VisualElement root)
         {
 #if HAS_METAL_BASE_GAME
-            root.Add(new PackageInstalledVisualElement("Base Game"));
+            root.Add(new PackageInstalledVisualElement("Base Game")
+            {
+                style =
+                {
+                    marginTop = 10
+                }
+            });
 
             Button createProjectStructure = new Button(CreateProjectStructure.CopyProjectStructure)
             {
                 text = "Create Project Structure",
                 style =
                 {
-                    marginTop = 50
+                    marginTop = 20
                 }
             };
             root.Add(createProjectStructure);
 #else
-            root.Add(new InstallPackageVisualElement("Base Game", InstallBaseGame));
+            root.Add(new InstallPackageVisualElement("Base Game", InstallBaseGame)
+            {
+                style =
+                {
+                    marginTop = 10
+                }
+            });
 #endif
         }
 
