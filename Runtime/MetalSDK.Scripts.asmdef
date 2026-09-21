@@ -1,0 +1,17 @@
+{
+    "name": "MetalSDK.Scripts",
+    "rootNamespace": "Metal",
+    "references": [
+        "MaxSdk.Scripts.IntegrationManager.Editor",
+        "MaxSdk.Scripts"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

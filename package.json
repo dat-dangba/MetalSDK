@@ -1,0 +1,11 @@
+{
+  "name": "com.ddb.metal.sdk",
+  "displayName": "MetalSDK",
+  "description": "MetalSDK",
+  "author": "datdb",
+  "version": "1.0.0",
+  "website": "https://github.com/dat-dangba/MetalSDK",
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.2"
+  }
+}
