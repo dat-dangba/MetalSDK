@@ -16,7 +16,7 @@ namespace Metal.Editor
             {
                 style =
                 {
-                    marginTop = 20
+                    marginTop = 10
                 }
             });
 #else
