@@ -10,7 +10,7 @@ namespace Metal.Editor
 #if HAS_METAL_ANALYTICS
             DrawSetting<MetalAnalyticsSetting>();
 #elif !HAS_ADJUST
-            DrawSetting<AdjustSetting>();
+            Add(new AdjustVisualElement());
 #else
             Add(new InstallPackageVisualElement("Metal Analytics Sdk", InstallMetalAnalyticsSDK));
 #endif

@@ -4,7 +4,9 @@
     "references": [
         "MetalSDK.Scripts",
         "MetalFirebase.Scripts",
-        "MetalIAP.Scripts"
+        "MetalIAP.Scripts",
+        "AdjustSdk.Scripts",
+        "AdjustSdk.Editor"
     ],
     "includePlatforms": [
         "Editor"

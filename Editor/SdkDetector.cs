@@ -47,6 +47,8 @@ namespace Metal.Editor
                 DefineSymbolIfNeeded(currentGroup, "HAS_FIREBASE_MESSAGING", true);
                 DefineSymbolIfNeeded(currentGroup, "HAS_IN_APP_PURCHASING", true);
                 DefineSymbolIfNeeded(currentGroup, "HAS_METAL_IAP", true);
+                DefineSymbolIfNeeded(currentGroup, "HAS_ADJUST", true);
+
             }
         }
 

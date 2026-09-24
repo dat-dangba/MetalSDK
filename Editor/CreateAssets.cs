@@ -1,10 +1,6 @@
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-#if HAS_ADJUST
-using AdjustSdk;
-#endif
-
 
 namespace Metal.Editor
 {
@@ -13,20 +9,10 @@ namespace Metal.Editor
     {
         static CreateAssets()
         {
-#if HAS_ADJUST
-            AdjustSettings adjustSettings = AdjustSettings.Instance;
-            AdjustSettings.iOSFrameworkAdSupport = true;
-            AdjustSettings.iOSFrameworkAdServices = true;
-            AdjustSettings.iOSFrameworkAdServices = true;
-            AdjustSettings.iOSFrameworkAppTrackingTransparency = true;
-            AdjustSettings.iOSFrameworkStoreKit = true;
-#endif
 #if HAS_MAX
             CreateAsset<MAXSetting>(Constant.SettingsFolder);
 #endif
             CreateAsset<GeneralSetting>(Constant.SETTINGS_FOLDER);
-            CreateAsset<AdjustSetting>(Constant.SETTINGS_FOLDER);
-            CreateAsset<BaseGameSetting>(Constant.SETTINGS_FOLDER);
         }
 
         public static T CreateAsset<T>(string folderPath) where T : ScriptableObject
