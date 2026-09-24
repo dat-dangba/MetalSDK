@@ -42,7 +42,7 @@ namespace Metal.Editor
                 text = "Create Project Structure",
                 style =
                 {
-                    marginTop = 20
+                    marginTop = 10
                 }
             };
             root.Add(createProjectStructure);
