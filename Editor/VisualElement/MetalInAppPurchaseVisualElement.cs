@@ -1,3 +1,4 @@
+using UnityEngine.UIElements;
 #if HAS_METAL_IAP
 using Metal.IAP;
 #endif
@@ -21,6 +22,13 @@ namespace Metal.Editor
             });
 #else
             Add(new PackageInstalledVisualElement("Metal IAP Sdk"));
+            Add(new VisualElement
+            {
+                style =
+                {
+                    paddingTop = 10
+                }
+            });
             DrawSetting(InAppPurchaseSo.LoadConfig());
 #endif
         }
