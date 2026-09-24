@@ -46,6 +46,8 @@ namespace Metal.Editor
                 DefineSymbolIfNeeded(currentGroup, "HAS_FIREBASE_CRASHLYTICS", true);
                 DefineSymbolIfNeeded(currentGroup, "HAS_FIREBASE_REMOTE_CONFIG", true);
                 DefineSymbolIfNeeded(currentGroup, "HAS_FIREBASE_MESSAGING", true);
+                DefineSymbolIfNeeded(currentGroup, "HAS_IN_APP_PURCHASING", true);
+                DefineSymbolIfNeeded(currentGroup, "HAS_METAL_IAP", true);
             }
         }
 

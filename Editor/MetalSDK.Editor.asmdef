@@ -3,7 +3,8 @@
     "rootNamespace": "Metal.Editor",
     "references": [
         "MetalSDK.Scripts",
-        "MetalFirebase.Scripts"
+        "MetalFirebase.Scripts",
+        "MetalIAP.Scripts"
     ],
     "includePlatforms": [
         "Editor"

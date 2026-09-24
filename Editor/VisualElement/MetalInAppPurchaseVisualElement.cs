@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Metal.IAP;
 using UnityEngine.UIElements;
 
 namespace Metal.Editor
@@ -8,7 +9,7 @@ namespace Metal.Editor
         public MetalInAppPurchaseVisualElement()
         {
 #if HAS_METAL_IAP
-            DrawSetting<MetalIAPSetting>();
+            DrawSetting(InAppPurchaseSo.LoadConfig());
 #else
             Add(new InstallPackageVisualElement("Metal IAP Sdk", InstallMetalIAP));
 #endif

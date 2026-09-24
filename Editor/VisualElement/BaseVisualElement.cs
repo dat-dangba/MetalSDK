@@ -11,6 +11,7 @@ namespace Metal.Editor
         {
             ScriptableObject setting = MetalServicesEditor.GetSetting<T>();
             DrawSetting(setting);
+            HideScript();
         }
 
         protected void DrawSetting(ScriptableObject setting)
@@ -23,6 +24,7 @@ namespace Metal.Editor
             settingInspector.style.paddingTop = 0;
             settingInspector.style.paddingBottom = 0;
             Add(settingInspector);
+            HideScript();
         }
 
         protected void HideScript()

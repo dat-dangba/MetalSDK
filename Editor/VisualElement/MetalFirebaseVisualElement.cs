@@ -51,7 +51,6 @@ namespace Metal.Editor
             });
             ScriptableObject remoteConfigSetting = RemoteConfigSo.LoadConfig();
             DrawSetting(remoteConfigSetting);
-            HideScript();
 #endif
         }
     }
