@@ -1,6 +1,6 @@
-using System.Collections.Generic;
+#if HAS_METAL_IAP
 using Metal.IAP;
-using UnityEngine.UIElements;
+#endif
 
 namespace Metal.Editor
 {
