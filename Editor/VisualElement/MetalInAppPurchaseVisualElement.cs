@@ -8,31 +8,33 @@ namespace Metal.Editor
     {
         public MetalInAppPurchaseVisualElement()
         {
-#if HAS_METAL_IAP
-            DrawSetting(InAppPurchaseSo.LoadConfig());
+#if !HAS_IN_APP_PURCHASING
+            Add(new InstallPackageVisualElement("In app purchasing", InstallInAppPurchasing));
+#elif !HAS_METAL_IAP
+            Add(new PackageInstalledVisualElement("In app purchasing"));
+            Add(new InstallPackageVisualElement("Metal IAP Sdk", InstallMetalIAP)
+            {
+                style =
+                {
+                    marginTop = 20
+                }
+            });
 #else
-            Add(new InstallPackageVisualElement("Metal IAP Sdk", InstallMetalIAP));
+            DrawSetting(InAppPurchaseSo.LoadConfig());
 #endif
+        }
+
+        private void InstallInAppPurchasing()
+        {
+            InstallPackageHelper.Install(PackageConstant.IAP_PACKAGE_ID);
         }
 
         private void InstallMetalIAP()
         {
             string token = MetalServicesEditor.GetToken();
             if (string.IsNullOrEmpty(token)) return;
-            var packages = new List<string>();
-
-            if (!InstallPackageHelper.IsPackageInstalled(PackageConstant.IAP_PACKAGE_ID))
-            {
-                packages.Add(PackageConstant.IAP_PACKAGE_ID);
-            }
-
             string metalIAPLink = $"https://{token}@github.com/dat-dangba/MetalIAP.git";
-            if (!InstallPackageHelper.IsPackageInstalled(metalIAPLink))
-            {
-                packages.Add(metalIAPLink);
-            }
-
-            InstallPackageHelper.Install(packages);
+            InstallPackageHelper.Install(metalIAPLink);
         }
     }
 }

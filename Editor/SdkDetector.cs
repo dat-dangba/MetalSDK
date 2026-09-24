@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Compilation;
-using UnityEngine;
 
 namespace Metal.Editor
 {
