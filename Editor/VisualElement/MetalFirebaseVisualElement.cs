@@ -38,11 +38,13 @@ namespace Metal.Editor
                     InstallPackageHelper.Install(metalFirebaseLink);
                 }));
 #else
+            Add(new PackageInstalledVisualElement("Metal Firebase Sdk"));
             Add(new Label("Remote Config")
             {
                 style =
                 {
                     fontSize = 18,
+                    marginTop = 10,
                     marginBottom = 5,
                     unityFontStyleAndWeight = FontStyle.Bold
                 }

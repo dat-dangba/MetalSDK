@@ -11,7 +11,7 @@ namespace Metal.Editor
 #if !HAS_IN_APP_PURCHASING
             Add(new InstallPackageVisualElement("In app purchasing", InstallInAppPurchasing));
 #elif !HAS_METAL_IAP
-            Add(new PackageInstalledVisualElement("In app purchasing"));
+            Add(new PackageInstalledVisualElement("Metal IAP Sdk"));
             Add(new InstallPackageVisualElement("Metal IAP Sdk", InstallMetalIAP)
             {
                 style =
@@ -20,6 +20,7 @@ namespace Metal.Editor
                 }
             });
 #else
+            Add(new PackageInstalledVisualElement("Metal IAP Sdk"));
             DrawSetting(InAppPurchaseSo.LoadConfig());
 #endif
         }
