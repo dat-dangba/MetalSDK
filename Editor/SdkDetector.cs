@@ -49,6 +49,7 @@ namespace Metal.Editor
                 DefineSymbolIfNeeded(currentGroup, "HAS_METAL_IAP", true);
                 DefineSymbolIfNeeded(currentGroup, "HAS_ADJUST", true);
                 DefineSymbolIfNeeded(currentGroup, "HAS_METAL_ANALYTICS", true);
+                DefineSymbolIfNeeded(currentGroup, "HAS_MAX", true);
 
             }
         }

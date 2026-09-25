@@ -7,13 +7,6 @@ namespace Metal.Editor
 {
     public class BaseVisualElement : VisualElement
     {
-        protected void DrawSetting<T>() where T : BaseEditorSetting
-        {
-            ScriptableObject setting = MetalServicesEditor.GetSetting<T>();
-            DrawSetting(setting);
-            HideScript();
-        }
-
         protected void DrawSetting(ScriptableObject setting)
         {
             SerializedObject settingSerialized = new SerializedObject(setting);

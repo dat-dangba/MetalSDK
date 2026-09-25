@@ -29,7 +29,7 @@ namespace Metal.Editor
                     marginTop = 10
                 }
             });
-            DrawSetting(InAppPurchaseSo.LoadConfig());
+            DrawSetting(InAppPurchaseSo.Load());
 #endif
         }
 
@@ -40,7 +40,7 @@ namespace Metal.Editor
 
         private void InstallMetalIAP()
         {
-            string token = MetalServicesEditor.GetToken();
+            string token = MetalSDK.GetToken();
             if (string.IsNullOrEmpty(token)) return;
             string metalIAPLink = $"https://{token}@github.com/dat-dangba/MetalIAP.git";
             InstallPackageHelper.Install(metalIAPLink);

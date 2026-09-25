@@ -2,11 +2,13 @@
     "name": "MetalSDK.Editor",
     "rootNamespace": "Metal.Editor",
     "references": [
+        "AdjustSdk.Scripts",
+        "AdjustSdk.Editor",
+        "MaxSdk.Scripts",
+        "MaxSdk.Scripts.IntegrationManager.Editor",
         "MetalSDK.Scripts",
         "MetalFirebase.Scripts",
         "MetalIAP.Scripts",
-        "AdjustSdk.Scripts",
-        "AdjustSdk.Editor",
         "MetalAnalytics.Scripts"
     ],
     "includePlatforms": [

@@ -38,7 +38,7 @@ namespace Metal.Editor
 
         private void InstallBaseGame()
         {
-            string token = MetalServicesEditor.GetToken();
+            string token = MetalSDK.GetToken();
             if (string.IsNullOrEmpty(token)) return;
 
             InstallPackageHelper.Install($"https://{token}@github.com/dat-dangba/MetalBaseGame.git");

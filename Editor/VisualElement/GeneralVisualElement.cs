@@ -4,7 +4,7 @@ namespace Metal.Editor
     {
         public GeneralVisualElement()
         {
-            DrawSetting<GeneralSetting>();
+            DrawSetting(GeneralSetting.Load());
         }
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using Metal.Firebase;
 using UnityEditor;
 using UnityEngine;
 

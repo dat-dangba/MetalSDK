@@ -18,7 +18,7 @@ namespace Metal.Editor
                     marginTop = 10
                 }
             });
-            DrawSetting(MetalAnalyticsBuildConfig.LoadConfig());
+            DrawSetting(MetalAnalyticsBuildConfig.Load());
 #elif !HAS_ADJUST
             Add(new AdjustVisualElement());
 #else
@@ -28,7 +28,7 @@ namespace Metal.Editor
 
         private void InstallMetalAnalyticsSDK()
         {
-            string token = MetalServicesEditor.GetToken();
+            string token = MetalSDK.GetToken();
             if (string.IsNullOrEmpty(token)) return;
             InstallPackageHelper.Install($"https://{token}@github.com/dat-dangba/MetalAnalytics.git");
         }

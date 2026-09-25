@@ -12,13 +12,12 @@ namespace Metal.Editor
 #elif !HAS_METAL_ADS
             Add(new InstallPackageVisualElement("Metal Ads Sdk", InstallMetalAds));
 #else
-            DrawSetting<MetalAdsSetting>();
 #endif
         }
 
         private void InstallMetalAds()
         {
-            string token = MetalServicesEditor.GetToken();
+            string token = MetalSDK.GetToken();
             if (string.IsNullOrEmpty(token)) return;
             InstallPackageHelper.Install($"https://{token}@github.com/dat-dangba/MetalAds.git");
         }

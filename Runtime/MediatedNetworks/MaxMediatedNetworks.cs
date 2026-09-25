@@ -20,8 +20,15 @@ namespace Metal
         }
     }
 
-    public class MAXMediatedNetworks : ScriptableObject
+    public class MaxMediatedNetworks : ScriptableObject
     {
+        private const string RESOURCE_PATH = "MetalSdk/Editor/MaxMediatedNetworksSetting";
+
+        public static MaxMediatedNetworks Load()
+        {
+            return Resources.Load<MaxMediatedNetworks>(RESOURCE_PATH);
+        }
+
         public List<MediatedNetwork> MediatedNetworks = new();
 
         public List<string> GetAllPackages()
@@ -32,7 +39,6 @@ namespace Metal
                 packages.Add($"com.applovin.mediation.adapters.{item.Package}.android@{item.AndroidVersion}");
                 packages.Add($"com.applovin.mediation.adapters.{item.Package}.ios@{item.IOSVersion}");
             }
-
             return packages;
         }
 

@@ -49,7 +49,7 @@ namespace Metal.Editor
                     unityFontStyleAndWeight = FontStyle.Bold
                 }
             });
-            ScriptableObject remoteConfigSetting = RemoteConfigSo.LoadConfig();
+            ScriptableObject remoteConfigSetting = RemoteConfigSo.Load();
             DrawSetting(remoteConfigSetting);
 #endif
         }

@@ -24,5 +24,13 @@ namespace Metal
             return false;
 #endif
         }
+
+        public static string GetToken()
+        {
+            string token = GeneralSetting.Load().SDKToken;
+            if (!string.IsNullOrEmpty(token)) return token;
+            MetalLog.Log("Chưa nhập token");
+            return "";
+        }
     }
 }
