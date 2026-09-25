@@ -1,4 +1,6 @@
+#if HAS_METAL_ANALYTICS
 using Metal.Analytics;
+#endif
 using UnityEngine.UIElements;
 
 namespace Metal.Editor
