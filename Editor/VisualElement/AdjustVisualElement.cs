@@ -20,8 +20,10 @@ namespace Metal.Editor
 
         private void DrawAdjust()
         {
+#if HAS_ADJUST
             Add(new PackageInstalledVisualElement("Adjust"));
             DrawSetting(AdjustSettings.Instance);
+#endif
         }
 
         private async void SetupAdjustIOS()
