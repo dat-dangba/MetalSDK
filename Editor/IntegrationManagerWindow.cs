@@ -12,7 +12,7 @@ namespace Metal.Editor
         private Label _header;
         private VisualElement _content;
         private const float WIDTH = 800;
-        private const float HEIGHT = 660;
+        private const float HEIGHT = 730;
 
         private string[] _tabs =
         {

@@ -1,4 +1,4 @@
-using UnityEditor;
+using Metal.Analytics;
 using UnityEngine.UIElements;
 
 namespace Metal.Editor
@@ -8,7 +8,15 @@ namespace Metal.Editor
         public MetalAnalyticsVisualElement()
         {
 #if HAS_METAL_ANALYTICS
-            DrawSetting<MetalAnalyticsSetting>();
+            Add(new PackageInstalledVisualElement("Metal Analytics Sdk"));
+            Add(new VisualElement
+            {
+                style =
+                {
+                    marginTop = 10
+                }
+            });
+            DrawSetting(MetalAnalyticsBuildConfig.LoadConfig());
 #elif !HAS_ADJUST
             Add(new AdjustVisualElement());
 #else

@@ -26,7 +26,7 @@ namespace Metal.Editor
             {
                 style =
                 {
-                    paddingTop = 10
+                    marginTop = 10
                 }
             });
             DrawSetting(InAppPurchaseSo.LoadConfig());

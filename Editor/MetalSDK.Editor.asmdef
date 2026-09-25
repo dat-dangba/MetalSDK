@@ -6,7 +6,8 @@
         "MetalFirebase.Scripts",
         "MetalIAP.Scripts",
         "AdjustSdk.Scripts",
-        "AdjustSdk.Editor"
+        "AdjustSdk.Editor",
+        "MetalAnalytics.Scripts"
     ],
     "includePlatforms": [
         "Editor"
