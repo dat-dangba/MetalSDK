@@ -13,6 +13,7 @@ namespace Metal.Editor
         private static readonly Dictionary<string, string> SdkDefinitions = new()
         {
             { "HAS_MAX", PackageConstant.MAX_PACKAGE_ID },
+            { "HAS_GOOGLE_ADS", PackageConstant.GOOGLE_ADS_PACKAGE_ID },
             { "HAS_AUTO_REFERENCE", PackageConstant.AUTO_REFERENCE_PACKAGE_ID },
             { "HAS_ADJUST", PackageConstant.ADJUST_PACKAGE_ID },
             { "HAS_IN_APP_PURCHASING", PackageConstant.IAP_PACKAGE_ID },
@@ -50,7 +51,8 @@ namespace Metal.Editor
                 DefineSymbolIfNeeded(currentGroup, "HAS_ADJUST", true);
                 DefineSymbolIfNeeded(currentGroup, "HAS_METAL_ANALYTICS", true);
                 DefineSymbolIfNeeded(currentGroup, "HAS_MAX", true);
-
+                DefineSymbolIfNeeded(currentGroup, "HAS_GOOGLE_ADS", true);
+                DefineSymbolIfNeeded(currentGroup, "HAS_METAL_ADS", true);
             }
         }
 

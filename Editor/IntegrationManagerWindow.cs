@@ -16,7 +16,7 @@ namespace Metal.Editor
 
         private string[] _tabs =
         {
-            "General", "Base Game", "EDM4U", "Adjust", "MAX", "Metal Analytics", "Metal Ads", "Metal IAP",
+            "General", "Base Game", "EDM4U", "Adjust", "MAX", "Google Ads", "Metal Analytics", "Metal Ads", "Metal IAP",
             "Metal Firebase"
         };
 
@@ -136,6 +136,9 @@ namespace Metal.Editor
                     break;
                 case "MAX":
                     _content.Add(new MaxVisualElement());
+                    break;
+                case "Google Ads":
+                    _content.Add(new GoogleAdsVisualElement());
                     break;
                 case "Metal Analytics":
                     _content.Add(new MetalAnalyticsVisualElement());

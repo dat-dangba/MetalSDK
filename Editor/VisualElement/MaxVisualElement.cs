@@ -1,6 +1,9 @@
 using AppLovinMax.Scripts.IntegrationManager.Editor;
 using UnityEditor;
 using UnityEngine.UIElements;
+#if HAS_METAL_ADS
+using Metal.Ads;
+#endif
 
 namespace Metal.Editor
 {
@@ -9,8 +12,16 @@ namespace Metal.Editor
         public MaxVisualElement()
         {
 #if !HAS_MAX
-            Add(new InstallPackageVisualElement("MAX Sdk", InstallMaxSdk));
+            Add(new InstallPackageVisualElement("MAX", InstallMaxSdk));
 #else
+            Add(new PackageInstalledVisualElement("MAX"));
+            Add(new VisualElement
+            {
+                style =
+                {
+                    marginTop = 10
+                }
+            });
             DrawSetting(MaxSetting.Load());
             Button installMediatedNetworksButton = new Button(InstallMediatedNetworks)
             {
@@ -20,7 +31,7 @@ namespace Metal.Editor
 
             Button setupMaxSdkButton = new Button(SetupMaxSdk)
             {
-                text = "Setup MAX Sdk"
+                text = "Setup MAX"
             };
             Add(setupMaxSdkButton);
 #endif
@@ -60,8 +71,8 @@ namespace Metal.Editor
 #endif
 
 #if HAS_METAL_ADS
-            MetalAdsBuildConfig metalAdsBuildConfig = MetalServices.GetBuildConfig<MetalAdsBuildConfig>();
-            metalAdsBuildConfig.admob_app_id = serializedObject.FindProperty("GoogleAdmobAppId").stringValue;
+            MetalAdsBuildConfig metalAdsBuildConfig = MetalAdsBuildConfig.Load();
+            metalAdsBuildConfig.admob_app_id = maxSetting.GoogleAdmobAppId;
             EditorUtility.SetDirty(metalAdsBuildConfig);
 #endif
 

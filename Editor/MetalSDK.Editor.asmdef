@@ -9,7 +9,8 @@
         "MetalSDK.Scripts",
         "MetalFirebase.Scripts",
         "MetalIAP.Scripts",
-        "MetalAnalytics.Scripts"
+        "MetalAnalytics.Scripts",
+        "MetalAds.Scripts"
     ],
     "includePlatforms": [
         "Editor"

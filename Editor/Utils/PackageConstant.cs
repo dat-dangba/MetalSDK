@@ -8,6 +8,7 @@ namespace Metal.Editor
         public const string ADJUST_PACKAGE_ID = "com.adjust.sdk";
         public const string ADJUST_LINK_INSTALL = "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust";
 
+        public const string GOOGLE_ADS_PACKAGE_ID = "com.google.ads.mobile";
         public const string MAX_PACKAGE_ID = "com.applovin.mediation.ads";
         public const string IAP_PACKAGE_ID = "com.unity.purchasing";
         public const string AUTO_REFERENCE_PACKAGE_ID = "com.ddb.autoreference";
