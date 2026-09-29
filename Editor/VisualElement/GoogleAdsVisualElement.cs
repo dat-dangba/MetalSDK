@@ -49,7 +49,6 @@ namespace Metal.Editor
 
         private void InstallGoogleAds()
         {
-            Debug.Log($"datdb - InstallGoogleAds");
             RegistryHelper.AddRegistryGoogle();
             InstallPackageHelper.Install(PackageConstant.GOOGLE_ADS_PACKAGE_ID, () => { });
         }

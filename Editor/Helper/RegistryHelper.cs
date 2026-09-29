@@ -52,7 +52,6 @@ namespace Metal.Editor
 
         private static void AddRegistry(ScopedRegistry scopedRegistry)
         {
-            Debug.Log($"datdb - AddRegistry");
             string manifestPath = Path.Combine(Application.dataPath, "..", "Packages", "manifest.json");
             if (!File.Exists(manifestPath))
             {
