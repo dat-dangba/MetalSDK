@@ -3,7 +3,7 @@ namespace Metal.Editor
     public static class PackageConstant
     {
         public const string EDM4_U_UNITY_PACKAGE_ID = "com.unity.external-dependency-manager";
-        public const string EDM4_U_GOOGLE_PACKAGE_ID = "com.unity.external-dependency-manager";
+        public const string EDM4_U_GOOGLE_PACKAGE_ID = "com.google.external-dependency-manager";
 
         public const string ADJUST_PACKAGE_ID = "com.adjust.sdk";
         public const string ADJUST_LINK_INSTALL = "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust";
