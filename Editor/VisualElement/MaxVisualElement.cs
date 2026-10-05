@@ -1,8 +1,10 @@
-using AppLovinMax.Scripts.IntegrationManager.Editor;
 using UnityEditor;
 using UnityEngine.UIElements;
 #if HAS_METAL_ADS
 using Metal.Ads;
+#endif
+#if HAS_MAX
+using AppLovinMax.Scripts.IntegrationManager.Editor;
 #endif
 
 namespace Metal.Editor
