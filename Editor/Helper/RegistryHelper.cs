@@ -45,7 +45,7 @@ namespace Metal.Editor
             {
                 Name = "package.openupm.com",
                 URL = "https://package.openupm.com",
-                Scopes = new List<string> { PackageConstant.EDM4U_PACKAGE_ID }
+                Scopes = new List<string> { PackageConstant.EDM4_U_GOOGLE_PACKAGE_ID }
             };
             AddRegistry(openUpm);
         }

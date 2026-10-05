@@ -16,7 +16,7 @@ namespace Metal.Editor
 
         public static bool IsEdm4UInstalled()
         {
-            return IsPackageInstalled(PackageConstant.EDM4U_PACKAGE_ID);
+            return IsPackageInstalled(PackageConstant.EDM4_U_UNITY_PACKAGE_ID);
         }
 
         public static bool IsPackageInstalled(string packageId)

@@ -13,9 +13,9 @@ namespace Metal.Editor
 
         private void InstallEdm4U()
         {
-            // RegistryHelper.AddRegistryEdm4U();
+            RegistryHelper.AddRegistryEdm4U();
             // string package = $"{PackageConstant.EDM4U_PACKAGE_ID}@{PackageConstant.EDM4U_VERSION}";
-            string package = $"{PackageConstant.EDM4U_PACKAGE_ID}";
+            string package = $"{PackageConstant.EDM4_U_UNITY_PACKAGE_ID}";
             InstallPackageHelper.Install(package,
                 () =>
                 {
