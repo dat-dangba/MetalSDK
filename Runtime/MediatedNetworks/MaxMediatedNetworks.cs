@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace Metal
@@ -39,6 +40,7 @@ namespace Metal
                 packages.Add($"com.applovin.mediation.adapters.{item.Package}.android@{item.AndroidVersion}");
                 packages.Add($"com.applovin.mediation.adapters.{item.Package}.ios@{item.IOSVersion}");
             }
+
             return packages;
         }
 
@@ -61,6 +63,9 @@ namespace Metal
                 new("Verve", "verve", "3080100.0.0", "3080000.0.0"),
                 new("Yandex", "yandex", "7180500.0.0", "7180400.0.0"),
             };
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
     }
 }
