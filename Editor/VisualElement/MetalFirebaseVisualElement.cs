@@ -32,7 +32,7 @@ namespace Metal.Editor
             Add(new InstallPackageVisualElement("Metal Firebase Sdk",
                 () =>
                 {
-                    string token = MetalServicesEditor.GetToken();
+                    string token = MetalSDK.GetToken();
                     if (string.IsNullOrEmpty(token)) return;
                     string metalFirebaseLink = $"https://{token}@github.com/dat-dangba/MetalFirebase.git";
                     InstallPackageHelper.Install(metalFirebaseLink);
