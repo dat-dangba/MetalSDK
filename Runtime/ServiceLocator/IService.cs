@@ -11,6 +11,8 @@ namespace Metal
 
     public interface IAsyncInitializable : IService
     {
+        int OrderInBootstrap { get; }
+
         System.Threading.Tasks.Task InitializeAsync();
     }
 

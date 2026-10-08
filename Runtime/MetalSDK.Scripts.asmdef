@@ -3,7 +3,8 @@
     "rootNamespace": "Metal",
     "references": [
         "MaxSdk.Scripts.IntegrationManager.Editor",
-        "MaxSdk.Scripts"
+        "MaxSdk.Scripts",
+        "AutoReference"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

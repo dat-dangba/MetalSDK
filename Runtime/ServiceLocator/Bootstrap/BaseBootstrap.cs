@@ -1,19 +1,30 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+#if HAS_AUTO_REFERENCE
+using Teo.AutoReference;
+#endif
 
 namespace Metal
 {
     [DefaultExecutionOrder(-1)]
     public abstract class BaseBootstrap : MonoBehaviour
     {
-        [SerializeField] protected List<MonoBehaviour> _Services;
+#if HAS_AUTO_REFERENCE
+        [SerializeField, GetInChildren, IgnoreSelf, FilterBy(nameof(IsService))]
+#else
+        [SerializeField]
+#endif
+        protected List<MonoBehaviour> _Services;
 
         public bool IsReady { get; private set; }
 
         protected abstract ServiceContainer Container { get; }
 
 #if UNITY_EDITOR
+
+        private bool IsService(MonoBehaviour mb) => mb is IService;
 
         protected virtual void LoadAllService()
         {
@@ -27,7 +38,11 @@ namespace Metal
 
         private void Reset()
         {
+#if HAS_AUTO_REFERENCE
+            AutoReference.Sync(this);
+#else
             LoadAllService();
+#endif
         }
 #endif
 
@@ -94,24 +109,39 @@ namespace Metal
 
         protected virtual async Task AsyncInitializeServices()
         {
-            var asyncTasks = new List<Task>();
-            foreach (var raw in Container.All())
+            List<int> orders = Container.All()
+                .OfType<IAsyncInitializable>()
+                .Select(s => s.OrderInBootstrap)
+                .Distinct()
+                .OrderBy(o => o)
+                .ToList();
+
+            Debug.Log($"datdb - orders.Count {orders.Count}");
+            foreach (var item in orders)
             {
-                if (raw is IAsyncInitializable async)
-                    asyncTasks.Add(async.InitializeAsync());
+                Debug.Log($"datdb - orders {item}");
             }
 
-            await Task.WhenAll(asyncTasks);
+            foreach (var item in orders)
+            {
+                var asyncTasks = new List<Task>();
+                foreach (var sync in Container.All().OfType<IAsyncInitializable>())
+                {
+                    if (sync.OrderInBootstrap == item)
+                    {
+                        asyncTasks.Add(sync.InitializeAsync());
+                    }
+                }
+
+                await Task.WhenAll(asyncTasks);
+            }
         }
 
         protected virtual void InitializeServices()
         {
-            foreach (var raw in Container.All())
+            foreach (var sync in Container.All().OfType<IInitializable>())
             {
-                if (raw is IInitializable sync)
-                {
-                    sync.Initialize();
-                }
+                sync.Initialize();
             }
         }
     }
