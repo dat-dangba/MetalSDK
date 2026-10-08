@@ -46,7 +46,7 @@ namespace Metal
         }
 #endif
 
-        protected async void Awake()
+        protected virtual async void Awake()
         {
             DontDestroyOnLoad(gameObject);
             RegisterServices();
@@ -115,12 +115,6 @@ namespace Metal
                 .Distinct()
                 .OrderBy(o => o)
                 .ToList();
-
-            Debug.Log($"datdb - orders.Count {orders.Count}");
-            foreach (var item in orders)
-            {
-                Debug.Log($"datdb - orders {item}");
-            }
 
             foreach (var item in orders)
             {
