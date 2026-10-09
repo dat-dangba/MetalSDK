@@ -18,7 +18,7 @@ namespace Metal.Editor
             { "HAS_ADJUST", PackageConstant.ADJUST_PACKAGE_ID },
             { "HAS_IN_APP_PURCHASING", PackageConstant.IAP_PACKAGE_ID },
             { "HAS_METAL_BASE_GAME", PackageConstant.METAL_BASE_GAME_PACKAGE_ID },
-            { "HAS_METAL_ANALYTICS", PackageConstant.METAL_ANALYTICS_PACKAGE_ID },
+            { "HAS_METAL_GAME_ANALYTICS", PackageConstant.METAL_GAME_ANALYTICS_PACKAGE_ID },
             { "HAS_METAL_ADS", PackageConstant.METAL_ADS_PACKAGE_ID },
             { "HAS_METAL_IAP", PackageConstant.METAL_IAP_PACKAGE_ID },
             { "HAS_METAL_FIREBASE", PackageConstant.METAL_FIREBASE_PACKAGE_ID },
@@ -49,7 +49,7 @@ namespace Metal.Editor
                 DefineSymbolIfNeeded(currentGroup, "HAS_IN_APP_PURCHASING", true);
                 DefineSymbolIfNeeded(currentGroup, "HAS_METAL_IAP", true);
                 DefineSymbolIfNeeded(currentGroup, "HAS_ADJUST", true);
-                DefineSymbolIfNeeded(currentGroup, "HAS_METAL_ANALYTICS", true);
+                DefineSymbolIfNeeded(currentGroup, "HAS_METAL_GAME_ANALYTICS", true);
                 DefineSymbolIfNeeded(currentGroup, "HAS_MAX", true);
                 DefineSymbolIfNeeded(currentGroup, "HAS_GOOGLE_ADS", true);
                 DefineSymbolIfNeeded(currentGroup, "HAS_METAL_ADS", true);

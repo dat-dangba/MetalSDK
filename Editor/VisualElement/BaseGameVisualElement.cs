@@ -19,16 +19,40 @@ namespace Metal.Editor
             });
 #else
             Add(new PackageInstalledVisualElement("Base Game"));
-            Button createProjectStructure = new Button(CreateProjectStructure.CopyProjectStructure)
+            Button createProjectStructure =
+                new Button(CopyProjectStructure)
+                {
+                    text = "Create Project Structure",
+                    style =
+                    {
+                        marginTop = 10
+                    }
+                };
+            Add(createProjectStructure);
+
+#if HAS_METAL_FIREBASE && HAS_METAL_IAP && HAS_METAL_ADS && HAS_METAL_GAME_ANALYTICS
+            Button createSdk = new Button(CopySdkStructure)
             {
-                text = "Create Project Structure",
+                text = "Create Sdk Structure",
                 style =
                 {
                     marginTop = 10
                 }
             };
-            Add(createProjectStructure);
+            Add(createSdk);
 #endif
+
+#endif
+        }
+
+        private void CopyProjectStructure()
+        {
+            CreateProjectStructure.CopyProjectStructure();
+        }
+
+        private void CopySdkStructure()
+        {
+            CreateProjectStructure.CopySdkStructure();
         }
 
         private void InstallAutoReference()

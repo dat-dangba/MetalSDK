@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Metal
 {
-    public static class MetalSDK
+    public static partial class MetalSDK
     {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void OnBeforeSceneLoad()
@@ -27,10 +27,14 @@ namespace Metal
 
         public static string GetToken()
         {
+#if UNITY_EDITOR
             string token = GeneralSetting.Load().SDKToken;
             if (!string.IsNullOrEmpty(token)) return token;
             MetalLog.Log("Chưa nhập token");
             return "";
+#else
+            return "";
+#endif
         }
     }
 }

@@ -7,9 +7,20 @@ namespace Metal.Editor
 {
     public static class CreateProjectStructure
     {
-        private const string SOURCE_FOLDER = "ProjectStructure~";
+        private const string SOURCE_FOLDER_PROJECT_STRUCTURE = "ProjectStructure~";
+        private const string SOURCE_FOLDER_SDK_STRUCTURE = "SdkStructure~";
 
         public static void CopyProjectStructure()
+        {
+            CopyStructure(SOURCE_FOLDER_PROJECT_STRUCTURE);
+        }
+
+        public static void CopySdkStructure()
+        {
+            CopyStructure(SOURCE_FOLDER_SDK_STRUCTURE);
+        }
+
+        private static void CopyStructure(string sourceFolder)
         {
             var packageInfo = PackageInfo.FindForPackageName(PackageConstant.METAL_BASE_GAME_PACKAGE_ID);
             if (packageInfo == null)
@@ -19,7 +30,7 @@ namespace Metal.Editor
                 return;
             }
 
-            var sourcePath = Path.Combine(packageInfo.resolvedPath, SOURCE_FOLDER);
+            var sourcePath = Path.Combine(packageInfo.resolvedPath, sourceFolder);
             if (!Directory.Exists(sourcePath))
             {
                 Debug.LogError($"[ProjectStructure] Không tìm thấy folder: {sourcePath}");
@@ -28,7 +39,7 @@ namespace Metal.Editor
 
             CopyDirectory(sourcePath, Application.dataPath);
             AssetDatabase.Refresh();
-            Debug.Log("[ProjectStructure] Copy Project Structure hoàn tất.");
+            Debug.Log("[ProjectStructure] Copy Structure hoàn tất.");
         }
 
         private static void CopyDirectory(string sourceDir, string destDir)

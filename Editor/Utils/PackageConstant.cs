@@ -13,7 +13,7 @@ namespace Metal.Editor
         public const string IAP_PACKAGE_ID = "com.unity.purchasing";
         public const string AUTO_REFERENCE_PACKAGE_ID = "com.ddb.autoreference";
         public const string METAL_BASE_GAME_PACKAGE_ID = "com.ddb.metal.basegame";
-        public const string METAL_ANALYTICS_PACKAGE_ID = "com.ddb.metal.analytics";
+        public const string METAL_GAME_ANALYTICS_PACKAGE_ID = "com.ddb.metal.game.analytics";
         public const string METAL_ADS_PACKAGE_ID = "com.ddb.metal.ads";
         public const string METAL_IAP_PACKAGE_ID = "com.ddb.metal.iap";
         public const string METAL_FIREBASE_PACKAGE_ID = "com.ddb.metal.firebase";

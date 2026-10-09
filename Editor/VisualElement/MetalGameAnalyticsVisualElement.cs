@@ -1,16 +1,16 @@
-#if HAS_METAL_ANALYTICS
-using Metal.Analytics;
+#if HAS_METAL_GAME_ANALYTICS
+using Metal.GameAnalytics;
 #endif
 using UnityEngine.UIElements;
 
 namespace Metal.Editor
 {
-    public class MetalAnalyticsVisualElement : BaseVisualElement
+    public class MetalGameAnalyticsVisualElement : BaseVisualElement
     {
-        public MetalAnalyticsVisualElement()
+        public MetalGameAnalyticsVisualElement()
         {
-#if HAS_METAL_ANALYTICS
-            Add(new PackageInstalledVisualElement("Metal Analytics Sdk"));
+#if HAS_METAL_GAME_ANALYTICS
+            Add(new PackageInstalledVisualElement("Metal Game Analytics Sdk"));
             Add(new VisualElement
             {
                 style =
@@ -22,7 +22,7 @@ namespace Metal.Editor
 #elif !HAS_ADJUST
             Add(new AdjustVisualElement());
 #else
-            Add(new InstallPackageVisualElement("Metal Analytics Sdk", InstallMetalAnalyticsSDK));
+            Add(new InstallPackageVisualElement("Metal Game Analytics Sdk", InstallMetalAnalyticsSDK));
 #endif
         }
 
@@ -30,7 +30,7 @@ namespace Metal.Editor
         {
             string token = MetalSDK.GetToken();
             if (string.IsNullOrEmpty(token)) return;
-            InstallPackageHelper.Install($"https://{token}@github.com/dat-dangba/MetalAnalytics.git");
+            InstallPackageHelper.Install($"https://{token}@github.com/dat-dangba/MetalGameAnalytics.git");
         }
     }
 }
