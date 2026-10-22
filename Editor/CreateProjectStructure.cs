@@ -7,6 +7,7 @@ namespace Metal.Editor
 {
     public static class CreateProjectStructure
     {
+        private const string PACKAGE_ID = "com.ddb.metal.sdk";
         private const string SOURCE_FOLDER_PROJECT_STRUCTURE = "ProjectStructure~";
         private const string SOURCE_FOLDER_SDK_STRUCTURE = "SdkStructure~";
 
@@ -22,11 +23,11 @@ namespace Metal.Editor
 
         private static void CopyStructure(string sourceFolder)
         {
-            var packageInfo = PackageInfo.FindForPackageName(PackageConstant.METAL_BASE_GAME_PACKAGE_ID);
+            var packageInfo = PackageInfo.FindForPackageName(PACKAGE_ID);
             if (packageInfo == null)
             {
                 Debug.LogError(
-                    $"[ProjectStructure] Không tìm thấy package {PackageConstant.METAL_BASE_GAME_PACKAGE_ID}");
+                    $"[ProjectStructure] Không tìm thấy package {PACKAGE_ID}");
                 return;
             }
 
