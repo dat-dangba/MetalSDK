@@ -2,7 +2,5 @@ using Metal.BaseGame;
 
 public class InternetManager : BaseInternetManager
 {
-    protected override string NoInternetPrefabPath => "";
-
-    protected override string ParentNameInCanvas => "NoInternetCanvas";
+    protected override string NoInternetPrefabPath => "Assets/_Project/Prefabs/NoInternet/NoInternetUI.prefab";
 }
