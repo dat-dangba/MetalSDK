@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2122137760834069154}
   - component: {fileID: 172880481326399569}
   - component: {fileID: 9145090278717529540}
-  - component: {fileID: 2313365043696118605}
   m_Layer: 5
   m_Name: NoInternetUI
   m_TagString: Untagged
@@ -90,21 +89,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &2313365043696118605
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 954949882742840757}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 374894836d0e14ad09137d9b6a2de41e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _destroyOnHide: 0
-  _container: {fileID: 7099828630777818561}
-  _canvasGroup: {fileID: 9145090278717529540}
 --- !u!1 &4157831420489519107
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,7 +101,6 @@ GameObject:
   - component: {fileID: 438718351651262605}
   - component: {fileID: 7167789662332058469}
   - component: {fileID: 1981967453317201184}
-  - component: {fileID: 4442280098496812185}
   m_Layer: 5
   m_Name: RetryButton
   m_TagString: Untagged
@@ -226,19 +209,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4442280098496812185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4157831420489519107}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9214524c50991439f80018d056a819b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _Button: {fileID: 1981967453317201184}
 --- !u!1 &8759853631103210970
 GameObject:
   m_ObjectHideFlags: 0
