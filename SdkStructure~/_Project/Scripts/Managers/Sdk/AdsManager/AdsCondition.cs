@@ -77,6 +77,7 @@ public class AdsCondition : IAdsCondition
 
     private bool IsAdEnabledAt(string adPlacement)
     {
+        if (Sdk.RemoteConfig == null) return false;
         bool result = Sdk.RemoteConfig.TryGetAdConfig(adPlacement, out AdConfig adConfig);
         return result && adConfig.Enabled && Level >= adConfig.LevelShow;
     }

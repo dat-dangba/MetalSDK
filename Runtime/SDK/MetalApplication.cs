@@ -12,6 +12,7 @@ namespace Metal
         public static event Action OnAppDestroy;
         public static event Action<bool> OnAppPause;
         public static event Action<bool> OnAppFocus;
+        public static Action OnGameLoadingCompleted;
 
         private void Awake()
         {
