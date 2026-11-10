@@ -22,10 +22,12 @@ namespace Metal
 
         protected abstract ServiceContainer Container { get; }
 
-#if UNITY_EDITOR
-
+#if HAS_AUTO_REFERENCE
         private bool IsService(MonoBehaviour mb) => mb is IService;
+#endif
 
+
+#if UNITY_EDITOR
         protected virtual void LoadAllService()
         {
             _Services = new List<MonoBehaviour>();
