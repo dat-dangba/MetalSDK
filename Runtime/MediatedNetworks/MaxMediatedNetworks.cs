@@ -47,25 +47,27 @@ namespace Metal
         [ContextMenu("Create Mediated Networks")]
         public void CreateMediatedNetworks()
         {
+#if UNITY_EDITOR
             MediatedNetworks = new List<MediatedNetwork>
             {
-                new("BidMachine", "bidmachine", "3060100.0.0", "306010000.0.0"),
-                new("Chartboost", "chartboost", "9110100.0.0", "9110000.0.0"),
-                new("DT Exchange", "fyber", "8040400.0.0", "8040600.0.0"),
-                new("Facebook", "facebook", "6210000.0.0", "6210100.0.0"),
-                new("Google", "google", "25020000.0.0", "13030000.0.0"),
-                new("InMobi", "inmobi", "11020000.0.0", "11020000.0.0"),
-                new("ironSource", "ironsource", "904000000.0.0", "904000000.0.0"),
-                new("Liftoff", "vungle", "7070200.0.0", "7070200.0.0"),
-                new("Mintegral", "mintegral", "17015100.0.0", "801010000.0.0"),
-                new("Pangle", "bytedance", "709010300.0.0", "709010200.0.0"),
-                new("Unity Ads", "unityads", "4170000.0.0", "4170000.0.0"),
-                new("Verve", "verve", "3080100.0.0", "3080000.0.0"),
-                new("Yandex", "yandex", "7180500.0.0", "7180400.0.0"),
+                new("BidMachine", "bidmachine", "3080001.0.0", "308020000.0.0"),
+                new("Chartboost", "chartboost", "9140101.0.0", "9140200.0.0"),
+                new("DT Exchange", "fyber", "8050100.0.0", "8050100.0.0"),
+                new("Facebook", "facebook", "6220001.0.0", "6220100.0.0"),
+                new("Google", "google", "25050000.0.0", "13120000.0.0"),
+                new("InMobi", "inmobi", "11050100.0.0", "11050000.0.0"),
+                new("ironSource", "ironsource", "907000000.0.0", "907000000.0.0"),
+                new("Liftoff", "vungle", "7080000.0.0", "7080000.0.0"),
+                new("Mintegral", "mintegral", "17022100.0.0", "801090000.0.0"),
+                new("Pangle", "bytedance", "804000500.0.0", "803000900.0.0"),
+                new("Unity Ads", "unityads", "4210001.0.0", "4210001.0.0"),
+                new("Verve", "verve", "3090300.0.0", "3090300.0.0"),
+                new("Yandex", "yandex", "8060000.0.0", "8060000.0.0"),
             };
             EditorUtility.SetDirty(this);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+#endif
         }
     }
 }
