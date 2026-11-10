@@ -1,7 +1,10 @@
+using Metal;
 using Metal.Ads;
 
 public class AdsCondition : IAdsCondition
 {
+    private int Level => ServiceLocator.Game.Get<SaveManager>().DataSave.Level + 1;
+
     public int GetInterstitialAdCooldown()
     {
         return Sdk.RemoteConfig.InterstitialAdCoolDown;
@@ -24,7 +27,7 @@ public class AdsCondition : IAdsCondition
 
     public bool IsBannerAdEnabledAt(string adPlacement)
     {
-        return false;
+        return IsAdEnabledAt(adPlacement);
     }
 
     public string AppOpenAdNetwork()
@@ -39,7 +42,7 @@ public class AdsCondition : IAdsCondition
 
     public bool IsAppOpenAdEnabledAt(string adPlacement)
     {
-        return false;
+        return IsAdEnabledAt(adPlacement);
     }
 
     public string InterstitialAdNetwork()
@@ -54,7 +57,7 @@ public class AdsCondition : IAdsCondition
 
     public bool IsInterstitialAdEnabledAt(string adPlacement)
     {
-        return false;
+        return IsAdEnabledAt(adPlacement);
     }
 
     public string RewardedAdNetwork()
@@ -69,6 +72,12 @@ public class AdsCondition : IAdsCondition
 
     public bool IsRewardedAdEnabledAt(string adPlacement)
     {
-        return true;
+        return IsAdEnabledAt(adPlacement);
+    }
+
+    private bool IsAdEnabledAt(string adPlacement)
+    {
+        bool result = Sdk.RemoteConfig.TryGetAdConfig(adPlacement, out AdConfig adConfig);
+        return result && adConfig.Enabled && Level >= adConfig.LevelShow;
     }
 }
