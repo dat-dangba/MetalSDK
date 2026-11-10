@@ -1,5 +1,4 @@
 using Metal;
-using Metal.GameAnalytics;
 using Metal.Firebase;
 
 public static class Sdk

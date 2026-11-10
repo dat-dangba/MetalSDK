@@ -4,76 +4,71 @@ public class AdsCondition : IAdsCondition
 {
     public int GetInterstitialAdCooldown()
     {
-        throw new System.NotImplementedException();
+        return Sdk.RemoteConfig.InterstitialAdCoolDown;
     }
 
     public bool IsNoAds()
     {
-        throw new System.NotImplementedException();
+        return false;
     }
 
     public string BannerAdNetwork()
     {
-        throw new System.NotImplementedException();
+        return Sdk.RemoteConfig.BannerAdNetwork;
     }
 
     public bool IsBannerAdEnabled()
     {
-        throw new System.NotImplementedException();
+        return Sdk.RemoteConfig.BannerAdEnabled;
     }
 
     public bool IsBannerAdEnabledAt(string adPlacement)
     {
-        throw new System.NotImplementedException();
+        return false;
     }
 
     public string AppOpenAdNetwork()
     {
-        throw new System.NotImplementedException();
+        return Sdk.RemoteConfig.AppOpenAdNetwork;
     }
 
     public bool IsAppOpenAdEnabled()
     {
-        throw new System.NotImplementedException();
-    }
-
-    public bool IsAppOpenAdForeGroundEnabled()
-    {
-        throw new System.NotImplementedException();
+        return Sdk.RemoteConfig.AppOpenAdEnabled;
     }
 
     public bool IsAppOpenAdEnabledAt(string adPlacement)
     {
-        throw new System.NotImplementedException();
+        return false;
     }
 
     public string InterstitialAdNetwork()
     {
-        throw new System.NotImplementedException();
+        return Sdk.RemoteConfig.InterstitialAdNetwork;
     }
 
     public bool IsInterstitialAdEnabled()
     {
-        throw new System.NotImplementedException();
+        return Sdk.RemoteConfig.InterstitialAdEnabled;
     }
 
     public bool IsInterstitialAdEnabledAt(string adPlacement)
     {
-        throw new System.NotImplementedException();
+        return false;
     }
 
     public string RewardedAdNetwork()
     {
-        throw new System.NotImplementedException();
+        return Sdk.RemoteConfig.RewardedAdNetwork;
     }
 
     public bool IsRewardedAdEnabled()
     {
-        throw new System.NotImplementedException();
+        return Sdk.RemoteConfig.RewardedAdEnabled;
     }
 
     public bool IsRewardedAdEnabledAt(string adPlacement)
     {
-        throw new System.NotImplementedException();
+        return true;
     }
 }
