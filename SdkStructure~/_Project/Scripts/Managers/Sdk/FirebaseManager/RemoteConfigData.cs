@@ -74,7 +74,7 @@ public class RemoteConfigData
 
     private static readonly FieldInfo[] AdConfigFields = typeof(RemoteConfigData)
         .GetFields(BindingFlags.Public | BindingFlags.Instance)
-        .Where(field => field.FieldType == typeof(AdConfig))
+        .Where(field => typeof(AdConfig).IsAssignableFrom(field.FieldType))
         .ToArray();
 
     public T GetAdConfig<T>(string adPlacement) where T : AdConfig
