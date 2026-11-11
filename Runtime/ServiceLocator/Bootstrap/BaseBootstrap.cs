@@ -53,6 +53,7 @@ namespace Metal
             DontDestroyOnLoad(gameObject);
             RegisterServices();
             await BootstrapAsync();
+            MergeBootstrap();
         }
 
         protected virtual void MergeBootstrap()
