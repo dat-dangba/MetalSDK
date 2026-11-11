@@ -55,6 +55,10 @@ namespace Metal
             await BootstrapAsync();
         }
 
+        protected virtual void MergeBootstrap()
+        {
+        }
+
         private void Update()
         {
             if (!IsReady) return;

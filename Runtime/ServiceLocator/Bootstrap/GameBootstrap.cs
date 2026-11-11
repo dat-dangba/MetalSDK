@@ -21,14 +21,12 @@ namespace Metal
             }
 
             base.Awake();
-
-            if (!_shouldMerge) return;
-
-            MergeGameBootstrap();
         }
 
-        private void MergeGameBootstrap()
+        protected override void MergeBootstrap()
         {
+            if (!_shouldMerge) return;
+
             Instance._Services.AddRange(_Services);
             Transform parent = Instance.transform;
             GameObject go = new GameObject("---------")
@@ -38,7 +36,8 @@ namespace Metal
                     parent = parent
                 }
             };
-            for (int i = transform.childCount - 1; i >= 0; i--)
+
+            for (int i = 0; i < transform.childCount; i++)
             {
                 transform.GetChild(i).parent = parent;
             }
