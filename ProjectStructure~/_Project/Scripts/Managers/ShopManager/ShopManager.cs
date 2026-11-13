@@ -19,8 +19,7 @@ public class ShopManager : BaseShopManager<ItemType>
 #endif
     }
 
-    public override void PurchaseProduct(string productId, string iapPlacement, Action<string> onPurchaseSuccess,
-        Action<string> onPurchaseFailed)
+    public override void PurchaseProduct(string productId, string iapPlacement, Action<bool> onPurchaseCompleted)
     {
     }
 
