@@ -3,7 +3,7 @@ using Metal;
 using Metal.BaseGame;
 using UnityEngine;
 
-public class ShopManager : BaseShopManager<BoosterSo, ProductSo>
+public class ShopManager : BaseShopManager<ItemType>
 {
     private BoosterManager _booster;
     private CurrencyManager _currency;
@@ -19,26 +19,30 @@ public class ShopManager : BaseShopManager<BoosterSo, ProductSo>
 #endif
     }
 
-    public override void PurchaseBooster(BoosterSo boosterSo,
-        Action<BoosterSo> onPurchaseSuccess,
-        Action<BoosterSo> onPurchaseFailed)
+    public override void PurchaseProduct(string productId, string iapPlacement, Action<string> onPurchaseSuccess,
+        Action<string> onPurchaseFailed)
     {
-        if (!_booster.Validate(boosterSo.Type)) return;
-
-        BoosterSo data = _booster.GetBoosterData(boosterSo.Type);
-
-        if (!_currency.Spend(ItemType.Coin, data.PurchasePrice))
-        {
-            onPurchaseFailed?.Invoke(boosterSo);
-            return;
-        }
-
-        _reward.Reward(boosterSo.Type, data.PurchaseAmount);
-        onPurchaseSuccess?.Invoke(boosterSo);
     }
 
-    public override void PurchaseProduct(ProductSo productSo, Action<ProductSo> onPurchaseSuccess,
-        Action<ProductSo> onPurchaseFailed)
+    public override bool TrySpend(ItemType currencyType, int price)
     {
+        return _currency.Spend(currencyType, price);
+    }
+
+    public bool TrySpendCoin(int price)
+    {
+        return TrySpend(ItemType.Coin, price);
+    }
+
+    public bool TryBuyBooster(ItemType boosterType)
+    {
+        if (!_booster.Validate(boosterType)) return false;
+
+        BoosterSo data = _booster.GetBoosterData(boosterType);
+
+        if (!TrySpendCoin(data.PurchasePrice)) return false;
+
+        _reward.Receive(boosterType, data.PurchaseAmount);
+        return true;
     }
 }

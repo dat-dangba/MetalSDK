@@ -1,15 +1,14 @@
 using System.Collections.Generic;
 using Metal;
-using Metal.BaseGame;
 using UnityEngine;
 
-public class RewardManager : BaseMonoBehaviour, IInitializable
+public class RewardManager : BaseRewardManager<ItemType>
 {
     private CurrencyManager _currency;
     private BoosterManager _booster;
     private LivesManager _lives;
 
-    public void Initialize()
+    public override void Initialize()
     {
         _currency = ServiceLocator.Game.Get<CurrencyManager>();
         _booster = ServiceLocator.Game.Get<BoosterManager>();
@@ -19,7 +18,7 @@ public class RewardManager : BaseMonoBehaviour, IInitializable
 #endif
     }
 
-    public void Reward(ItemType type, int amount)
+    public override void Receive(ItemType type, int amount)
     {
         switch (type)
         {
@@ -36,16 +35,16 @@ public class RewardManager : BaseMonoBehaviour, IInitializable
         }
     }
 
-    public void Reward(RewardData rewardData)
+    public void Receive(RewardData rewardData)
     {
-        Reward(rewardData.Type, rewardData.Amount);
+        Receive(rewardData.Type, rewardData.Amount);
     }
 
-    public void Reward(List<RewardData> rewardDatas)
+    public void Receive(List<RewardData> rewardDatas)
     {
         foreach (var item in rewardDatas)
         {
-            Reward(item);
+            Receive(item);
         }
     }
 }
