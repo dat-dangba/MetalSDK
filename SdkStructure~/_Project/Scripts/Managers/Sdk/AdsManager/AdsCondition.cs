@@ -27,7 +27,7 @@ public class AdsCondition : IAdsCondition
 
     public bool IsBannerAdEnabledAt(string adPlacement)
     {
-        return IsAdEnabledAt(adPlacement);
+        return IsAdEnabledAt(adPlacement, Level);
     }
 
     public string AppOpenAdNetwork()
@@ -42,7 +42,7 @@ public class AdsCondition : IAdsCondition
 
     public bool IsAppOpenAdEnabledAt(string adPlacement)
     {
-        return IsAdEnabledAt(adPlacement);
+        return IsAdEnabledAt(adPlacement, Level);
     }
 
     public string InterstitialAdNetwork()
@@ -57,7 +57,14 @@ public class AdsCondition : IAdsCondition
 
     public bool IsInterstitialAdEnabledAt(string adPlacement)
     {
-        return IsAdEnabledAt(adPlacement);
+        switch (adPlacement)
+        {
+            case AdPlacement.INTERSTITIAL_AD_CLAIM_COIN_VICTORY:
+                bool result = Sdk.RemoteConfig.TryGetAdConfig(adPlacement, out WinCountAdConfig adConfig);
+                return result && adConfig.CanShow(Level - 1);
+            default:
+                return IsAdEnabledAt(adPlacement, Level);
+        }
     }
 
     public string RewardedAdNetwork()
@@ -72,13 +79,14 @@ public class AdsCondition : IAdsCondition
 
     public bool IsRewardedAdEnabledAt(string adPlacement)
     {
-        return IsAdEnabledAt(adPlacement);
+        int lv = adPlacement == AdPlacement.REWARDED_AD_CLAIM_COIN_VICTORY ? Level - 1 : Level;
+        return IsAdEnabledAt(adPlacement, lv);
     }
 
-    private bool IsAdEnabledAt(string adPlacement)
+    private bool IsAdEnabledAt(string adPlacement, int level)
     {
         if (Sdk.RemoteConfig == null) return false;
         bool result = Sdk.RemoteConfig.TryGetAdConfig(adPlacement, out AdConfig adConfig);
-        return result && adConfig.Enabled && Level >= adConfig.LevelShow;
+        return result && adConfig.Enabled && level >= adConfig.LevelShow;
     }
 }
