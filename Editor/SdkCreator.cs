@@ -1,5 +1,3 @@
-using System.IO;
-using System.Threading.Tasks;
 using UnityEditor;
 
 namespace Metal.Editor
@@ -13,38 +11,24 @@ namespace Metal.Editor
         private const string MAX_MEDIATED_NETWORKS_ASSET_PATH =
             "Assets/Resources/MetalSdk/Editor/MaxMediatedNetworksSetting.asset";
 
-        private const string FOLDER_PATH = "Assets/Resources/MetalSdk/Editor";
-
         static SdkCreator()
         {
-            EnsureFolderExists();
-            CreateAssets();
+            // InitializeOnLoad có thể chạy trước khi import asset xong, đợi Editor khởi tạo xong mới tạo / load asset
+            EditorApplication.delayCall += CreateAssets;
         }
 
-        private static async void CreateAssets()
+        private static void CreateAssets()
         {
-            await Task.Delay(100);
             ScriptableObjectCreator.Create<MaxSetting>(MAX_SETTING_ASSET_PATH);
             ScriptableObjectCreator.Create<GeneralSetting>(GENERAL_ASSET_PATH);
-            bool result = ScriptableObjectCreator.Create<MaxMediatedNetworks>(MAX_MEDIATED_NETWORKS_ASSET_PATH);
-            if (result)
+            bool isCreated = ScriptableObjectCreator.Create<MaxMediatedNetworks>(MAX_MEDIATED_NETWORKS_ASSET_PATH);
+            if (!isCreated) return;
+
+            var mediatedNetworks = AssetDatabase.LoadAssetAtPath<MaxMediatedNetworks>(MAX_MEDIATED_NETWORKS_ASSET_PATH);
+            if (mediatedNetworks != null)
             {
-                LoadMaxMediatedNetworks();
+                mediatedNetworks.CreateMediatedNetworks();
             }
-        }
-
-        private static async void LoadMaxMediatedNetworks()
-        {
-            await Task.Delay(100);
-            MaxMediatedNetworks.Load().CreateMediatedNetworks();
-        }
-
-        private static void EnsureFolderExists()
-        {
-            if (Directory.Exists(FOLDER_PATH)) return;
-
-            Directory.CreateDirectory(FOLDER_PATH);
-            AssetDatabase.Refresh();
         }
     }
 }
