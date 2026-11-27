@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,14 +19,24 @@ namespace Metal
 #endif
         protected List<MonoBehaviour> _Services;
 
+        /// <summary>
+        /// Service do chính bootstrap này register (chỉ những service này được Initialize / tick bởi bootstrap)
+        /// </summary>
+        private readonly List<IService> _registeredServices = new();
+
         public bool IsReady { get; private set; }
 
         protected abstract ServiceContainer Container { get; }
 
+        /// <summary>
+        /// Thời gian tối đa chờ 1 IAsyncInitializable. Quá thời gian thì bootstrap chạy tiếp (service vẫn chạy nền).
+        /// 0 = chờ không giới hạn.
+        /// </summary>
+        protected virtual int AsyncInitializeTimeoutMs => 15000;
+
 #if HAS_AUTO_REFERENCE
         private bool IsService(MonoBehaviour mb) => mb is IService;
 #endif
-
 
 #if UNITY_EDITOR
         protected virtual void LoadAllService()
@@ -34,7 +45,13 @@ namespace Metal
             if (transform.childCount <= 0) return;
             foreach (Transform item in transform)
             {
-                _Services.Add(item.gameObject.GetComponent<MonoBehaviour>());
+                foreach (MonoBehaviour component in item.GetComponents<MonoBehaviour>())
+                {
+                    if (component is IService)
+                    {
+                        _Services.Add(component);
+                    }
+                }
             }
         }
 
@@ -51,8 +68,17 @@ namespace Metal
         protected virtual async void Awake()
         {
             DontDestroyOnLoad(gameObject);
-            RegisterServices();
-            await BootstrapAsync();
+            try
+            {
+                RegisterServices();
+                await BootstrapAsync();
+            }
+            catch (Exception ex)
+            {
+                MetalLog.LogError($"[{GetType().Name}] Bootstrap failed: {ex}", true);
+                IsReady = true;
+            }
+
             MergeBootstrap();
         }
 
@@ -68,82 +94,121 @@ namespace Metal
 
         protected virtual void RegisterServices()
         {
+            if (_Services == null) return;
+
             foreach (var service in _Services)
             {
+                if (service == null)
+                {
+                    MetalLog.LogWarning($"[{GetType().Name}] Có phần tử null trong _Services, bỏ qua", true);
+                    continue;
+                }
+
                 RegisterService(service);
             }
         }
 
         protected virtual void RegisterService(MonoBehaviour service)
         {
-            var type = service.GetType();
-            var method = typeof(ServiceContainer).GetMethod(nameof(ServiceContainer.Register));
-            if (method == null) return;
-            var generic = method.MakeGenericMethod(type);
-            generic.Invoke(Container, new object[] { service });
-        }
+            if (service is not IService iService)
+            {
+                MetalLog.LogWarning($"[{GetType().Name}] {service.GetType().Name} không phải IService, bỏ qua", true);
+                return;
+            }
 
-        // protected virtual void RegisterService(IService service)
-        // {
-        //     var type = service.GetType();
-        //     var interfaces = GetMostDerivedInterfaces(type);
-        //     var method = typeof(ServiceContainer).GetMethod(nameof(ServiceContainer.Register));
-        //     if (method == null) return;
-        //     var generic = method.MakeGenericMethod(interfaces.Length == 0 ? type : interfaces[0]);
-        //     generic.Invoke(Container, new object[] { service });
-        // }
-        //
-        // private Type[] GetMostDerivedInterfaces(Type concreteType)
-        // {
-        //     var allInterfaces = concreteType.GetInterfaces();
-        //     // Loại bỏ interface nào là "cha" của 1 interface khác trong cùng danh sách
-        //     return allInterfaces
-        //         .Where(candidate => !allInterfaces.Any(other =>
-        //             other != candidate && candidate.IsAssignableFrom(other)))
-        //         .ToArray();
-        // }
+            // Register theo kiểu cụ thể, chưa tick cho tới khi bootstrap khởi tạo xong
+            Container.Register(service.GetType(), service, false);
+            _registeredServices.Add(iService);
+        }
 
         protected virtual async Task BootstrapAsync()
         {
             InitializeServices();
-
             await AsyncInitializeServices();
+
+            foreach (IService service in _registeredServices)
+            {
+                Container.StartTicking(service);
+            }
+
             IsReady = true;
 #if UNITY_EDITOR
             Debug.LogWarning($"[{GetType().Name}] - Ready {IsReady}");
 #endif
         }
 
+        /// <summary>
+        /// Chạy InitializeAsync theo từng nhóm OrderInBootstrap tăng dần, các service cùng nhóm chạy song song.
+        /// Service lỗi / quá thời gian chỉ log lỗi, không chặn bootstrap.
+        /// </summary>
         protected virtual async Task AsyncInitializeServices()
         {
-            List<int> orders = Container.All()
+            List<IGrouping<int, IAsyncInitializable>> groups = _registeredServices
                 .OfType<IAsyncInitializable>()
-                .Select(s => s.OrderInBootstrap)
-                .Distinct()
-                .OrderBy(o => o)
+                .GroupBy(s => s.OrderInBootstrap)
+                .OrderBy(g => g.Key)
                 .ToList();
 
-            foreach (var item in orders)
+            foreach (IGrouping<int, IAsyncInitializable> group in groups)
             {
-                var asyncTasks = new List<Task>();
-                foreach (var sync in Container.All().OfType<IAsyncInitializable>())
-                {
-                    if (sync.OrderInBootstrap == item)
-                    {
-                        asyncTasks.Add(sync.InitializeAsync());
-                    }
-                }
-
-                await Task.WhenAll(asyncTasks);
+                await Task.WhenAll(group.Select(InitializeAsyncSafe));
             }
         }
 
         protected virtual void InitializeServices()
         {
-            foreach (var sync in Container.All().OfType<IInitializable>())
+            foreach (IInitializable service in _registeredServices.OfType<IInitializable>())
             {
-                sync.Initialize();
+                try
+                {
+                    service.Initialize();
+                }
+                catch (Exception ex)
+                {
+                    MetalLog.LogError($"[{GetType().Name}] {service.GetType().Name}.Initialize failed: {ex}", true);
+                }
             }
+        }
+
+        private async Task InitializeAsyncSafe(IAsyncInitializable service)
+        {
+            string serviceName = service.GetType().Name;
+            try
+            {
+                Task initTask = service.InitializeAsync() ?? Task.CompletedTask;
+                if (AsyncInitializeTimeoutMs <= 0)
+                {
+                    await initTask;
+                    return;
+                }
+
+                Task completed = await Task.WhenAny(initTask, Task.Delay(AsyncInitializeTimeoutMs));
+                if (completed != initTask)
+                {
+                    MetalLog.LogError(
+                        $"[{GetType().Name}] {serviceName}.InitializeAsync timeout {AsyncInitializeTimeoutMs}ms, continue bootstrap",
+                        true);
+                    ObserveLater(initTask, serviceName);
+                    return;
+                }
+
+                await initTask;
+            }
+            catch (Exception ex)
+            {
+                MetalLog.LogError($"[{GetType().Name}] {serviceName}.InitializeAsync failed: {ex}", true);
+            }
+        }
+
+        /// <summary>
+        /// Service quá thời gian vẫn chạy nền: log lỗi nếu sau đó nó throw
+        /// </summary>
+        private void ObserveLater(Task task, string serviceName)
+        {
+            task.ContinueWith(t =>
+            {
+                MetalLog.LogError($"[{GetType().Name}] {serviceName}.InitializeAsync failed: {t.Exception}", true);
+            }, TaskContinuationOptions.OnlyOnFaulted);
         }
     }
 }

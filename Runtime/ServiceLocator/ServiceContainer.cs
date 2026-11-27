@@ -10,24 +10,49 @@ namespace Metal
         private readonly List<ITickable> _tickables = new();
         private readonly object _lock = new();
 
+        // Bản sao của _tickables để TickAll không lỗi khi register / unregister ngay trong Tick, chỉ tạo lại khi thay đổi
+        private ITickable[] _tickSnapshot = Array.Empty<ITickable>();
+        private bool _isTickSnapshotDirty;
+
         public void Register<T>(T service) where T : class
         {
-            Type type = typeof(T);
+            Register(typeof(T), service, true);
+        }
+
+        /// <summary>
+        /// Register theo type truyền vào. startTicking = false: chưa tick, bootstrap gọi StartTicking sau khi
+        /// service khởi tạo xong.
+        /// </summary>
+        internal void Register(Type type, object service, bool startTicking)
+        {
             lock (_lock)
             {
-                if (_services.ContainsKey(type))
+                if (_services.TryGetValue(type, out object old))
                 {
 #if UNITY_EDITOR
                     Debug.LogWarning($"[ServiceContainer] - {type.Name} đã được register, sẽ ghi đè.");
 #endif
+                    RemoveTickable(old);
                 }
 
                 _services[type] = service;
 
-                if (service is ITickable tickable)
+                if (startTicking)
                 {
-                    _tickables.Add(tickable);
+                    AddTickable(service);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Bắt đầu tick service (nếu là ITickable và đang được register)
+        /// </summary>
+        internal void StartTicking(object service)
+        {
+            lock (_lock)
+            {
+                if (!_services.ContainsValue(service)) return;
+                AddTickable(service);
             }
         }
 
@@ -71,7 +96,10 @@ namespace Metal
         {
             lock (_lock)
             {
-                _services.Remove(typeof(T));
+                if (_services.Remove(typeof(T), out object service))
+                {
+                    RemoveTickable(service);
+                }
             }
         }
 
@@ -81,29 +109,87 @@ namespace Metal
             {
                 foreach (KeyValuePair<Type, object> kv in _services)
                 {
-                    if (kv.Value is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
+                    DisposeService(kv.Value);
                 }
 
                 _services.Clear();
+                _tickables.Clear();
+                _isTickSnapshotDirty = true;
             }
         }
 
         public void TickAll()
         {
-            foreach (ITickable t in _tickables)
+            ITickable[] tickables;
+            lock (_lock)
             {
-                t.Tick();
+                if (_isTickSnapshotDirty)
+                {
+                    _tickSnapshot = _tickables.ToArray();
+                    _isTickSnapshotDirty = false;
+                }
+
+                tickables = _tickSnapshot;
+            }
+
+            foreach (ITickable tickable in tickables)
+            {
+                try
+                {
+                    tickable.Tick();
+                }
+                catch (Exception ex)
+                {
+                    // 1 service lỗi không chặn tick của các service khác
+                    Debug.LogException(ex);
+                }
             }
         }
 
+        /// <summary>
+        /// Bản sao danh sách service đang register
+        /// </summary>
         public IReadOnlyCollection<object> All()
         {
             lock (_lock)
             {
-                return _services.Values;
+                return new List<object>(_services.Values);
+            }
+        }
+
+        private void AddTickable(object service)
+        {
+            if (service is not ITickable tickable || _tickables.Contains(tickable)) return;
+
+            _tickables.Add(tickable);
+            _isTickSnapshotDirty = true;
+        }
+
+        private void RemoveTickable(object service)
+        {
+            if (service is ITickable tickable && _tickables.Remove(tickable))
+            {
+                _isTickSnapshotDirty = true;
+            }
+        }
+
+        private static void DisposeService(object service)
+        {
+            try
+            {
+                // Hỗ trợ cả Metal.IDisposable lẫn System.IDisposable
+                if (service is IDisposable metalDisposable)
+                {
+                    metalDisposable.Dispose();
+                }
+                else if (service is System.IDisposable systemDisposable)
+                {
+                    systemDisposable.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex);
             }
         }
     }
