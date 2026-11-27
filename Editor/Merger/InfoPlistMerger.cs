@@ -1,12 +1,13 @@
+// UnityEditor.iOS.Xcode chỉ có khi cài iOS Build Support: bọc cả using để máy không cài iOS module vẫn compile được
+#if UNITY_IOS
+using System.IO;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
-using System.IO;
 using UnityEngine;
 
 namespace Metal.Editor
 {
-// #if UNITY_IOS && UNITY_EDITOR
     public static class InfoPlistMerger
     {
         [PostProcessBuild]
@@ -60,5 +61,5 @@ namespace Metal.Editor
             }
         }
     }
-// #endif
 }
+#endif

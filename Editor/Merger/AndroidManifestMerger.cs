@@ -1,3 +1,4 @@
+#if UNITY_ANDROID
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +9,6 @@ using UnityEngine;
 
 namespace Metal.Editor
 {
-// #if UNITY_EDITOR && UNITY_ANDROID
     public class AndroidManifestMerger : IPostGenerateGradleAndroidProject
     {
         private const string ANDROID_NS = "http://schemas.android.com/apk/res/android";
@@ -241,5 +241,5 @@ namespace Metal.Editor
             };
         }
     }
-// #endif
 }
+#endif
