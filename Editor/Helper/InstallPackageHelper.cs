@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEditor;
 using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
@@ -21,7 +20,7 @@ namespace Metal.Editor
 
         public static bool IsPackageInstalled(string packageId)
         {
-            return Directory.Exists($"Packages/{packageId}");
+            return UnityEditor.PackageManager.PackageInfo.FindForPackageName(packageId) != null;
         }
 
         public static void Install(string package, Action completed = null)
