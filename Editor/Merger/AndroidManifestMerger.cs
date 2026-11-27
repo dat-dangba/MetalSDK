@@ -12,6 +12,9 @@ namespace Metal.Editor
     public class AndroidManifestMerger : IPostGenerateGradleAndroidProject
     {
         private const string ANDROID_NS = "http://schemas.android.com/apk/res/android";
+        private const string TOOLS_NS = "http://schemas.android.com/tools";
+        private const string ADMOB_APP_ID_KEY = "admob_app_id";
+        private const string ADMOB_APP_ID_META_NAME = "com.google.android.gms.ads.APPLICATION_ID";
 
         public int callbackOrder { get; }
 
@@ -97,7 +100,13 @@ namespace Metal.Editor
 
                     if (string.IsNullOrEmpty(value)) continue;
 
-                    configDict.Add(key, value);
+                    if (configDict.ContainsKey(key))
+                    {
+                        Debug.LogWarning(
+                            $"[AndroidManifestMerger] Key '{key}' bị trùng, dùng giá trị của {config.GetType().Name}");
+                    }
+
+                    configDict[key] = value;
                 }
             }
 
@@ -128,31 +137,56 @@ namespace Metal.Editor
                 return;
             }
 
-            foreach (var (key, value) in configDict)
+            foreach (string key in configDict.Keys)
             {
-                var nodes = application.SelectNodes("meta-data");
-                if (nodes == null)
+                // Tên thẻ meta-data trong manifest (admob_app_id phải dùng tên chuẩn của Google Mobile Ads)
+                string metaName = key == ADMOB_APP_ID_KEY ? ADMOB_APP_ID_META_NAME : key;
+                // Giá trị luôn là placeholder, Gradle thay bằng manifestPlaceholders trong build.gradle
+                string metaValue = $"${{{key}}}";
+
+                XmlElement meta = FindMetaData(application, metaName);
+                if (meta == null)
                 {
-                    continue;
+                    meta = xml.CreateElement("meta-data");
+                    meta.SetAttribute("name", ANDROID_NS, metaName);
+                    application.AppendChild(meta);
                 }
 
-                foreach (XmlNode node in nodes)
-                {
-                    if (node.Attributes != null && node.Attributes["android:name"]?.Value == key)
-                    {
-                        node.Attributes["android:value"].Value = value;
-                        return;
-                    }
-                }
+                meta.SetAttribute("value", ANDROID_NS, metaValue);
 
-                var meta = xml.CreateElement("meta-data");
-                meta.SetAttribute("name", ANDROID_NS,
-                    key == "admob_app_id" ? "com.google.android.gms.ads.APPLICATION_ID" : key);
-                meta.SetAttribute("value", ANDROID_NS, $"${{{key}}}");
-                application.AppendChild(meta);
+                if (metaName == ADMOB_APP_ID_META_NAME)
+                {
+                    // Plugin Google Mobile Ads cũng ghi APPLICATION_ID (lấy từ GoogleMobileAdsSettings) vào manifest
+                    // của unityLibrary: luôn dùng giá trị placeholder của launcher, tránh lỗi xung đột khi merge
+                    EnsureToolsNamespace(xml.DocumentElement);
+                    meta.SetAttribute("replace", TOOLS_NS, "android:value");
+                }
             }
 
             xml.Save(manifestPath);
+        }
+
+        private static void EnsureToolsNamespace(XmlElement manifest)
+        {
+            if (!manifest.HasAttribute("xmlns:tools"))
+            {
+                manifest.SetAttribute("xmlns:tools", TOOLS_NS);
+            }
+        }
+
+        private static XmlElement FindMetaData(XmlNode application, string metaName)
+        {
+            foreach (XmlNode node in application.ChildNodes)
+            {
+                if (node is XmlElement element
+                    && element.Name == "meta-data"
+                    && element.GetAttribute("name", ANDROID_NS) == metaName)
+                {
+                    return element;
+                }
+            }
+
+            return null;
         }
 
         private bool MergeBuildGradle(string launcherPath, Dictionary<string, string> configDict)
