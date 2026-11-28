@@ -2,7 +2,6 @@
     "name": "MetalSDK.Scripts",
     "rootNamespace": "Metal",
     "references": [
-        "MaxSdk.Scripts.IntegrationManager.Editor",
         "MaxSdk.Scripts",
         "AutoReference"
     ],
