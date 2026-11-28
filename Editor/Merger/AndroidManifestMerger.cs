@@ -88,7 +88,7 @@ namespace Metal.Editor
 
         private Dictionary<string, string> GetAllConfig()
         {
-            var configs = Resources.LoadAll<BaseBuildConfig>("");
+            var configs = BuildConfigLoader.LoadAll();
             Dictionary<string, string> configDict = new();
 
             foreach (var config in configs)

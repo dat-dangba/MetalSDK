@@ -6,7 +6,7 @@ namespace Metal
     {
         public static MaxSetting Load()
         {
-            return Resources.Load<MaxSetting>("MetalSdk/Editor/MaxSetting");
+            return Resources.Load<MaxSetting>("MetalSdk/MaxSetting");
         }
 
         public string MaxSdkKey =

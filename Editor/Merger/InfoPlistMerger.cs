@@ -22,7 +22,7 @@ namespace Metal.Editor
             plist.ReadFromFile(plistPath);
 
             PlistElementDict root = plist.root;
-            var configs = Resources.LoadAll<BaseBuildConfig>("");
+            var configs = BuildConfigLoader.LoadAll();
             foreach (var cfg in configs)
             {
                 ApplyIOS(root, cfg);

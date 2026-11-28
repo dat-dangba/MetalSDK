@@ -6,7 +6,7 @@ namespace Metal
     {
         public static GeneralSetting Load()
         {
-            return Resources.Load<GeneralSetting>("MetalSdk/Editor/GeneralSetting");
+            return Resources.Load<GeneralSetting>("MetalSdk/GeneralSetting");
         }
 
         public string SDKToken = "";

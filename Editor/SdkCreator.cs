@@ -5,11 +5,15 @@ namespace Metal.Editor
     [InitializeOnLoad]
     public static class SdkCreator
     {
-        private const string MAX_SETTING_ASSET_PATH = "Assets/Resources/MetalSdk/Editor/MaxSetting.asset";
-        private const string GENERAL_ASSET_PATH = "Assets/Resources/MetalSdk/Editor/GeneralSetting.asset";
+        // Editor/Resources: Resources.Load đọc được trong Editor nhưng không bị đưa vào bản build
+        private const string FOLDER = "Assets/Editor/Resources/MetalSdk/";
 
-        private const string MAX_MEDIATED_NETWORKS_ASSET_PATH =
-            "Assets/Resources/MetalSdk/Editor/MaxMediatedNetworksSetting.asset";
+        // Vị trí ở bản SDK cũ (Resources/.../Editor vẫn bị đưa vào bản build), tự chuyển sang FOLDER
+        private const string LEGACY_FOLDER = "Assets/Resources/MetalSdk/Editor/";
+
+        private const string MAX_SETTING_FILE = "MaxSetting.asset";
+        private const string GENERAL_FILE = "GeneralSetting.asset";
+        private const string MAX_MEDIATED_NETWORKS_FILE = "MaxMediatedNetworksSetting.asset";
 
         static SdkCreator()
         {
@@ -19,12 +23,14 @@ namespace Metal.Editor
 
         private static void CreateAssets()
         {
-            ScriptableObjectCreator.Create<MaxSetting>(MAX_SETTING_ASSET_PATH);
-            ScriptableObjectCreator.Create<GeneralSetting>(GENERAL_ASSET_PATH);
-            bool isCreated = ScriptableObjectCreator.Create<MaxMediatedNetworks>(MAX_MEDIATED_NETWORKS_ASSET_PATH);
+            ScriptableObjectCreator.Create<MaxSetting>(FOLDER + MAX_SETTING_FILE, LEGACY_FOLDER + MAX_SETTING_FILE);
+            ScriptableObjectCreator.Create<GeneralSetting>(FOLDER + GENERAL_FILE, LEGACY_FOLDER + GENERAL_FILE);
+            bool isCreated = ScriptableObjectCreator.Create<MaxMediatedNetworks>(
+                FOLDER + MAX_MEDIATED_NETWORKS_FILE, LEGACY_FOLDER + MAX_MEDIATED_NETWORKS_FILE);
             if (!isCreated) return;
 
-            var mediatedNetworks = AssetDatabase.LoadAssetAtPath<MaxMediatedNetworks>(MAX_MEDIATED_NETWORKS_ASSET_PATH);
+            var mediatedNetworks =
+                AssetDatabase.LoadAssetAtPath<MaxMediatedNetworks>(FOLDER + MAX_MEDIATED_NETWORKS_FILE);
             if (mediatedNetworks != null)
             {
                 mediatedNetworks.CreateMediatedNetworks();

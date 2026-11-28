@@ -25,7 +25,7 @@ namespace Metal
 
     public class MaxMediatedNetworks : ScriptableObject
     {
-        private const string RESOURCE_PATH = "MetalSdk/Editor/MaxMediatedNetworksSetting";
+        private const string RESOURCE_PATH = "MetalSdk/MaxMediatedNetworksSetting";
 
         public static MaxMediatedNetworks Load()
         {
